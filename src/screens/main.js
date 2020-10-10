@@ -1,7 +1,7 @@
 
 import { Picker } from '@react-native-community/picker';
 import React, { useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, Text, View } from 'react-native';
 import { useStoreContext } from '../context';
 
 const templates = ['Verb'];

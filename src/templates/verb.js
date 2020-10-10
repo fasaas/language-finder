@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Input } from '../components/Input';
-import { useVerbContext } from '../contexts/VerbContext';
+import { useVerbContext, VerbProvider } from '../contexts/VerbContext';
 
 export const VerbTemplate = () => {
   const { state } = useVerbContext();
+  const tenses = Object.keys(state.verbForm);
   const [title, setTitle] = useState('');
-  const mePresent = {
-    fromLabel: 'я',
-    fromText: state.presentmefrom,
-    fromKey: 'presentmefrom',
-    toLabel: 'yo',
-    toText: state.presentmeto,
-    toKey: 'presentmeto'
-  };
 
   return (
-    <View>
+    <ScrollView>
       <View key="title">
         <Text>Title</Text>
         <TextInput value={title} onChangeText={setTitle} />
       </View>
+
       <View key="preset" >
-        <Text>Present</Text>
-        <Input {...mePresent} />
+        {
+          tenses.map((tense, index) => (
+            <View key={`${tense}-${index}`}>
+              <Text>{tense}</Text>
+
+              <View>
+                {state.verbForm[tense].map((item, index) =>
+                  <Input key={`${tense}-${item.label}-${index}`} {...item} />
+                )}
+              </View>
+            </View>
+          ))
+        }
       </View>
       <View key="submit">
         <Button
@@ -34,6 +39,6 @@ export const VerbTemplate = () => {
           }}
         />
       </View>
-    </View>
+    </ScrollView >
   )
 }

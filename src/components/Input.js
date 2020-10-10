@@ -3,15 +3,17 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useVerbContext } from '../contexts/VerbContext';
 
 export const Input = (props) => {
-  const { fromLabel, fromText, fromKey, toLabel, toText, toKey } = props;
+  const { label, text, keys } = props;
   const { dispatch } = useVerbContext();
 
   return (
     <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-      <Text>{fromLabel}</Text>
-      <TextInput style={{ height: 35, borderWidth: 1, borderColor: "gray" }} value={fromText} onChangeText={(text) => dispatch({ type: fromKey, text })} />
-      <Text>{toLabel}</Text>
-      <TextInput style={{ height: 35, borderWidth: 1, borderColor: "gray" }} value={toText} onChangeText={(text) => dispatch({ type: toKey, text })} />
+      <Text>{label}</Text>
+      <TextInput
+        style={{ height: 35, borderWidth: 1, borderColor: "gray" }}
+        value={text}
+        onChangeText={(text) => dispatch({ ...keys, text })}
+      />
     </View>
   )
 }
