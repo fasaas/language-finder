@@ -9,8 +9,7 @@ const buildEmptyVerbForm = () => {
       label: subject,
       text: '',
       keys: { tense, subject }
-    })
-    )
+    }))
   })
 
   return form;

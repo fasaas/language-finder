@@ -6,7 +6,12 @@ const VerbContext = createContext();
 const reducer = (state, action) => {
   const { text, tense, subject, type } = action
   const currentVerbForm = state.verbForm;
-  if (type === 'set-title') {
+  if (type === 'sync-infinitive') {
+    console.log("synching infinitive", currentVerbForm.infinitive.origin);
+    const infinitive = currentVerbForm.infinitive.origin;
+    const tenses = Object.keys(currentVerbForm.tenses);
+    tenses.forEach((tense) => currentVerbForm.tenses[tense].forEach((subject) => subject.text = infinitive))
+  } else if (type === 'set-title') {
     currentVerbForm.title = text;
   } else if (type === 'set-infinitive-origin') {
     currentVerbForm.infinitive.origin = text;
