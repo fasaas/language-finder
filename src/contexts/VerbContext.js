@@ -4,9 +4,17 @@ import { buildEmptyVerbForm } from '../templates/verbForm';
 const VerbContext = createContext();
 
 const reducer = (state, action) => {
-  const { text, tense, subject } = action
+  const { text, tense, subject, type } = action
   const currentVerbForm = state.verbForm;
-  currentVerbForm[tense].find((item) => item.label === subject).text = text;
+  if (type === 'set-title') {
+    currentVerbForm.title = text;
+  } else if (type === 'set-infinitive-origin') {
+    currentVerbForm.infinitive.origin = text;
+  } else if (type === 'set-infinitive-translated') {
+    currentVerbForm.infinitive.translated = text;
+  } else {
+    currentVerbForm.tenses[tense].find((item) => item.label === subject).text = text;
+  }
   return { verbForm: currentVerbForm }
 }
 
