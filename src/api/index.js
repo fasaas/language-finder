@@ -1,1 +1,0 @@
-export { getLanguageCards } from './CardsService';
