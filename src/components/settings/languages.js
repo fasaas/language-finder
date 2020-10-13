@@ -4,7 +4,7 @@ const addLanguage = (title, locale) => {
 }
 
 addLanguage('Русский', 'ru-RU');
-addLanguage('Castellano (españa)', 'es-ES');
+addLanguage('Castellano (España)', 'es-ES');
 
 const getLanguagesWithout = (locale) => languages.filter((language) => language.locale !== locale)
 export { getLanguagesWithout }
