@@ -45,12 +45,13 @@ const NotesNavigator = () =>
   );
 
 const SettingsStack = createStackNavigator();
-const SettingsNavigator = () =>
-  (
+const SettingsNavigator = () => {
+  return (
     <SettingsStack.Navigator>
       <SettingsStack.Screen
         name="SettingsScreen"
         component={SettingsScreen}
       />
     </SettingsStack.Navigator>
-  );
+  )
+};

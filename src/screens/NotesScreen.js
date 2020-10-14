@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Button, Text } from 'react-native';
 
 export const NotesScreen = () => {
-  return <Text>Hellou</Text>
+  return <Text>IN CONSTRUCTION!</Text>
 }

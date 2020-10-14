@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { Alert, Button, StyleSheet, View } from 'react-native';
 import { LanguagePicker } from '../components/settings/LanguagePicker';
 import { DynamicList } from '../components/settings/DynamicList';
+import { useSettingsContext } from '../contexts/SettingsContext';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const SettingsScreen = () => {
-  const [originLanguage, setOriginLanguage] = useState('');
-  const [targetLanguage, setTargetLanguage] = useState('');
-  const [verbTenses, setVerbTenses] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [genders, setGenders] = useState([]);
+  const { settingsState } = useSettingsContext();
+  const [originLanguage, setOriginLanguage] = useState(settingsState.originLanguage);
+  const [targetLanguage, setTargetLanguage] = useState(settingsState.targetLanguage);
+  const [verbTenses, setVerbTenses] = useState(settingsState.verbTenses);
+  const [subjects, setSubjects] = useState(settingsState.subjects);
+  const [genders, setGenders] = useState(settingsState.genders);
   return (
     <View>
       <View key='language-view' style={styles.container}>
@@ -44,6 +47,20 @@ export const SettingsScreen = () => {
         <Button
           title='Save'
           color='green'
+          onPress={async () => {
+            try {
+              await AsyncStorage.setItem('@language-finder-settings', JSON.stringify({
+                originLanguage,
+                targetLanguage,
+                verbTenses,
+                subjects,
+                genders
+              }));
+              Alert.alert("Saved!")
+            } catch (e) {
+              console.error(e)
+            }
+          }}
         />
         <Button
           title='Cancel'
