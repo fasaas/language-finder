@@ -4,16 +4,18 @@ import { LanguagePicker } from '../components/settings/LanguagePicker';
 import { DynamicList } from '../components/settings/DynamicList';
 import { useSettingsContext } from '../contexts/SettingsContext';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const SettingsScreen = () => {
-  const { settingsState } = useSettingsContext();
+  const { settingsState, settingsDispatch } = useSettingsContext();
   const [originLanguage, setOriginLanguage] = useState(settingsState.originLanguage);
   const [targetLanguage, setTargetLanguage] = useState(settingsState.targetLanguage);
   const [verbTenses, setVerbTenses] = useState(settingsState.verbTenses);
   const [subjects, setSubjects] = useState(settingsState.subjects);
   const [genders, setGenders] = useState(settingsState.genders);
+
   return (
-    <View>
+    <ScrollView>
       <View key='language-view' style={styles.container}>
         <LanguagePicker
           originValue={originLanguage}
@@ -56,6 +58,15 @@ export const SettingsScreen = () => {
                 subjects,
                 genders
               }));
+              settingsDispatch({
+                type: 'save-settings', settings: {
+                  originLanguage,
+                  targetLanguage,
+                  verbTenses,
+                  subjects,
+                  genders
+                }
+              })
               Alert.alert("Saved!")
             } catch (e) {
               console.error(e)
@@ -67,7 +78,7 @@ export const SettingsScreen = () => {
           color='black'
         />
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
