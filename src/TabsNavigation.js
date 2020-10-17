@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SettingsScreen } from './screens/SettingsScreen';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import { NotesScreen } from './screens/NotesScreen';
+import { NewNoteScreen } from './screens/NewNoteScreen';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -22,6 +23,14 @@ export const Tabs = () => {
         }}
       />
       <BottomTab.Screen
+        name="NewScreen"
+        component={NewNoteNavigator}
+        options={{
+          tabBarLabel: 'New Note',
+          tabBarIcon: () => <AntDesign name="pluscircleo" size={24} color="black" />
+        }}
+      />
+      <BottomTab.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{
@@ -34,8 +43,8 @@ export const Tabs = () => {
 }
 
 const NotesStack = createStackNavigator();
-const NotesNavigator = () =>
-  (
+const NotesNavigator = () => {
+  return (
     <NotesStack.Navigator>
       <NotesStack.Screen
         name="NotesScreen"
@@ -43,6 +52,19 @@ const NotesNavigator = () =>
       />
     </NotesStack.Navigator>
   );
+}
+
+const NewNoteStack = createStackNavigator();
+const NewNoteNavigator = () => {
+  return (
+    <NewNoteStack.Navigator>
+      <NewNoteStack.Screen
+        name="NewNote"
+        component={NewNoteScreen}
+      />
+    </NewNoteStack.Navigator>
+  );
+}
 
 const SettingsStack = createStackNavigator();
 const SettingsNavigator = () => {

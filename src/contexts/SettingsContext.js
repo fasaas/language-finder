@@ -13,7 +13,6 @@ const initialState = {
 
 const reducer = (state, action) => {
   if (action.type === 'save-settings') {
-    console.log("new settings", action.settings);
     return action.settings
   }
   return state
@@ -25,7 +24,6 @@ const SettingsProvider = ({ children }) => {
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        console.log("loaded settings from useeffect")
         const loadedSettings = await AsyncStorage.getItem('@language-finder-settings');
         const parsedSettings = JSON.parse(loadedSettings);
         const settings = {
