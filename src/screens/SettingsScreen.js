@@ -10,9 +10,11 @@ export const SettingsScreen = () => {
   const { settingsState, settingsDispatch } = useSettingsContext();
   const [originLanguage, setOriginLanguage] = useState(settingsState.originLanguage);
   const [targetLanguage, setTargetLanguage] = useState(settingsState.targetLanguage);
-  const [verbTenses, setVerbTenses] = useState(settingsState.verbTenses);
+  const [tenses, setTenses] = useState(settingsState.tenses);
   const [subjects, setSubjects] = useState(settingsState.subjects);
   const [genders, setGenders] = useState(settingsState.genders);
+
+  const saveDisabled = isSaveDisabled({ originLanguage, targetLanguage, tenses, subjects, genders }, settingsState);
 
   return (
     <ScrollView>
@@ -27,8 +29,8 @@ export const SettingsScreen = () => {
       <View key='verb-tenses' style={styles.container}>
         <DynamicList
           placeholder='New verb tense'
-          list={verbTenses}
-          set={setVerbTenses}
+          list={tenses}
+          set={setTenses}
         />
       </View>
       <View key='subjects' style={styles.container}>
@@ -47,6 +49,7 @@ export const SettingsScreen = () => {
       </View>
       <View key='submit' style={styles.container, styles.submit}>
         <Button
+          disabled={saveDisabled}
           title='Save'
           color='green'
           onPress={async () => {
@@ -54,7 +57,7 @@ export const SettingsScreen = () => {
               await AsyncStorage.setItem('@language-finder-settings', JSON.stringify({
                 originLanguage,
                 targetLanguage,
-                verbTenses,
+                tenses,
                 subjects,
                 genders
               }));
@@ -62,7 +65,7 @@ export const SettingsScreen = () => {
                 type: 'save-settings', settings: {
                   originLanguage,
                   targetLanguage,
-                  verbTenses,
+                  tenses,
                   subjects,
                   genders
                 }
@@ -80,6 +83,25 @@ export const SettingsScreen = () => {
       </View>
     </ScrollView>
   )
+}
+
+const isSaveDisabled = (currentState, settingsState) => {
+  const sameOriginLanguage = currentState.originLanguage === settingsState.originLanguage;
+  const sameTargetLanguage = currentState.targetLanguage === settingsState.targetLanguage;
+  const sameTenses = areTheSameArrays(currentState.tenses, settingsState.tenses);
+  const sameSubjects = areTheSameArrays(currentState.subjects, settingsState.subjects);
+  const sameGenders = areTheSameArrays(currentState.genders, settingsState.genders);
+
+  const enabled = false, disabled = true;
+  const currentAndStoredSettingsAreSame = (sameOriginLanguage && sameTargetLanguage && sameTenses && sameSubjects && sameGenders)
+
+  if (currentAndStoredSettingsAreSame) return disabled;
+
+  return enabled;
+}
+
+const areTheSameArrays = (arr1, arr2) => {
+  arr1.every((tense) => arr2.includes(tense)) && arr2.every((tense) => arr1.includes(tense));
 }
 
 const styles = StyleSheet.create({

@@ -6,7 +6,7 @@ const SettingsContext = createContext();
 const initialState = {
   originLanguage: '',
   targetLanguage: '',
-  verbTenses: [],
+  tenses: [],
   subjects: [],
   genders: []
 }
@@ -31,7 +31,7 @@ const SettingsProvider = ({ children }) => {
         const settings = {
           originLanguage: parsedSettings.originLanguage || '',
           targetLanguage: parsedSettings.targetLanguage || '',
-          verbTenses: parsedSettings.verbTenses || [],
+          tenses: parsedSettings.tenses || [],
           subjects: parsedSettings.subjects || [],
           genders: parsedSettings.genders || []
         }
