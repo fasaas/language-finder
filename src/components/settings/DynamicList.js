@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Text, View, FlatList, TextInput } from 'react-native';
 
 export const DynamicList = ({ list, set, placeholder }) => {
-  const [newValue, serValue] = useState('');
+  const [newValue, setValue] = useState('');
   const isDisabled = newValue.trim() === '' || list.includes(newValue);
   return (
     <View style={{ margin: 15 }}>
@@ -12,13 +12,20 @@ export const DynamicList = ({ list, set, placeholder }) => {
           style={{ width: '70%' }}
           placeholder={placeholder}
           value={newValue}
-          onChangeText={serValue}
+          onChangeText={setValue}
+          onSubmitEditing={() => {
+            set(list.concat(newValue))
+            setValue('')
+          }}
         />
         <View style={{ width: '30%' }}>
           <Button
             disabled={isDisabled}
             title='+'
-            onPress={() => set(list.concat(newValue))}
+            onPress={() => {
+              set(list.concat(newValue))
+              setValue('')
+            }}
           />
         </View>
       </View>
