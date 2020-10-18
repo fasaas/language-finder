@@ -52,24 +52,26 @@ export const SettingsScreen = () => {
           disabled={saveDisabled}
           title='Save'
           color='green'
-          onPress={async () => {
+          onPress={() => {
             try {
-              await AsyncStorage.setItem('@language-finder-settings', JSON.stringify({
-                originLanguage,
-                targetLanguage,
-                tenses,
-                subjects,
-                genders
-              }));
               settingsDispatch({
-                type: 'save-settings', settings: {
+                type: 'save-settings',
+                settings: {
                   originLanguage,
                   targetLanguage,
                   tenses,
                   subjects,
                   genders
                 }
-              })
+              });
+
+              AsyncStorage.setItem('@language-finder-settings', JSON.stringify({
+                originLanguage,
+                targetLanguage,
+                tenses,
+                subjects,
+                genders
+              }));
               Alert.alert("Saved!")
             } catch (e) {
               console.error(e)
@@ -101,7 +103,7 @@ const isSaveDisabled = (currentState, settingsState) => {
 }
 
 const areTheSameArrays = (arr1, arr2) => {
-  arr1.every((tense) => arr2.includes(tense)) && arr2.every((tense) => arr1.includes(tense));
+  return arr1.every((tense) => arr2.includes(tense)) && arr2.every((tense) => arr1.includes(tense));
 }
 
 const styles = StyleSheet.create({
