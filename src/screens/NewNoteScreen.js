@@ -4,15 +4,16 @@ import { Alert, Button, ScrollView, Text, TextInput, View } from 'react-native';
 import { useSettingsContext } from '../contexts/SettingsContext';
 import { AdjectiveSection } from '../sections/adjective';
 import { PhraseSection } from '../sections/phrase';
+import { VerbSection } from '../sections/verb';
 
-const availableSections = ['Sentence', 'Adjective'];
+const availableSections = ['Sentence', 'Adjective', 'Verb'];
 
 export const NewNoteScreen = () => {
   const { settingsState } = useSettingsContext();
 
   const [title, setTitle] = useState();
   const [selectedSection, setSelectedSection] = useState(availableSections[0]);
-  const [sections, setSections] = useState([]);
+  const [sections, setSections] = useState([<PhraseSection />]);
 
   return (
     <ScrollView>
@@ -42,9 +43,9 @@ export const NewNoteScreen = () => {
         <Button
           title='Add note'
           onPress={() => {
-            console.log(`${selectedSection} selected!`)
             if (selectedSection === 'Sentence') setSections(sections.concat(<PhraseSection />))
             if (selectedSection === 'Adjective') setSections(sections.concat(<AdjectiveSection />))
+            if (selectedSection === 'Verb') setSections(sections.concat(<VerbSection />))
           }}
         />
       </View>
