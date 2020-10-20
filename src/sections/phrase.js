@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
+import { Collapsible } from '../components/collapsible';
 
 export const PhraseSection = () => {
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
 
   return (
-    <View key='phrase-view' style={{ marginTop: 10, marginBottom: 10 }}>
+    <Collapsible style={{ marginTop: 10, marginBottom: 10 }}>
       <View key='from-sentence'>
         <TextInput
           style={{ borderColor: 'gray', borderWidth: 1 }}
@@ -23,6 +24,6 @@ export const PhraseSection = () => {
           onChangeText={setTo}
         />
       </View>
-    </View>
+    </Collapsible>
   )
 }

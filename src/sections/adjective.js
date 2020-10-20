@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Collapsible } from '../components/collapsible';
 import { useSettingsContext } from '../contexts/SettingsContext';
 
 const adjectiveReducer = (state, { type, value }) => {
@@ -14,22 +15,40 @@ export const AdjectiveSection = () => {
   const [state, dispatch] = useReducer(adjectiveReducer, {});
 
   return (
-    <View key='adjective-view' style={{ marginTop: 10, marginBottom: 10 }}>
-      <View key='genders'>
-        {
-          genders.map((gender) => {
-            return (
-              <View key={`gender-${gender}`}>
-                <Text>{gender}</Text>
-                <TextInput
-                  value={state[gender]}
-                  onChangeText={(text) => dispatch({ type: gender, value: text })}
-                />
-              </View>
-            )
-          })
-        }
-      </View>
-    </View>
+    <Collapsible style={{ marginTop: 10, marginBottom: 10 }}>
+      {
+        genders.map((gender) => {
+          return (
+            <View key={`gender-${gender}`} style={styles.inputContainer}>
+              <Text style={styles.inputContainerLabel}>{gender}</Text>
+              <TextInput
+                style={styles.inputContainerTextInput}
+                value={state[gender]}
+                onChangeText={(text) => dispatch({ type: gender, value: text })}
+              />
+            </View>
+          )
+        })
+      }
+    </Collapsible>
   )
 }
+
+const styles = StyleSheet.create({
+  bottomLine: {
+    borderBottomWidth: 1
+  },
+  inputContainer: {
+    flexDirection: "row",
+    paddingLeft: 15,
+  },
+  inputContainerLabel: {
+    marginTop: 8,
+    width: '35%'
+  },
+  inputContainerTextInput: {
+    height: 40,
+    width: '60%',
+    borderBottomWidth: 1
+  }
+})

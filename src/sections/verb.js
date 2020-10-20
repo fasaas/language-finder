@@ -20,18 +20,18 @@ export const VerbSection = () => {
   const [state, dispatch] = useReducer(verbReducer, initialState);
 
   return (
-    <Collapsible>
-      <View key='verb-view' style={{ marginTop: 10, marginBottom: 10 }}>
-        <View key='verb-picker' style={styles.bottomLine}>
-          <Picker
-            selectedValue={tense}
-            onValueChange={setTense}
-          >
-            {tenses.map((tense, index) => <Picker.Item key={`${tense}-${index}`} label={tense} value={tense} />)}
-          </Picker>
-        </View>
-        {
-          subjects.map((subject) =>
+    <Collapsible style={{ marginTop: 10, marginBottom: 10 }}>
+      <View key='verb-picker' style={styles.bottomLine}>
+        <Picker
+          selectedValue={tense}
+          onValueChange={setTense}
+        >
+          {tenses.map((tense, index) => <Picker.Item key={`${tense}-${index}`} label={tense} value={tense} />)}
+        </Picker>
+      </View>
+      {
+        subjects.map((subject) => {
+          return (
             <View key={`${tense}-${subject}`} style={styles.inputContainer}>
               <Text style={styles.inputContainerLabel}>{subject}</Text>
               <TextInput
@@ -41,8 +41,8 @@ export const VerbSection = () => {
               />
             </View>
           )
-        }
-      </View>
+        })
+      }
     </Collapsible>
   )
 }
@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
   },
   inputContainerLabel: {
     marginTop: 8,
-    width: '25%'
+    width: '35%'
   },
   inputContainerTextInput: {
     height: 40,
-    width: '70%',
+    width: '60%',
     borderBottomWidth: 1
   }
 })
