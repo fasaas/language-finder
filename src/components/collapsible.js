@@ -1,4 +1,4 @@
-import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useReducer } from 'react';
 import { View } from 'react-native';
 
@@ -11,12 +11,12 @@ export const Collapsible = ({ style, children }) => {
   return expanded ?
     <View>
       <View style={{ flexDirection: "row-reverse", ...style }}>
-        <AntDesign onPress={toggle} name="caretdown" size={24} color="black" />
+        <MaterialCommunityIcons onPress={toggle} name="arrow-collapse" size={24} color="black" />
       </View>
       {children}
     </View>
     :
     <View style={{ flexDirection: "row-reverse", ...style }}>
-      <AntDesign onPress={toggle} name="caretright" size={24} color="black" />
+      <MaterialCommunityIcons onPress={toggle} name="arrow-expand" size={24} color="black" />
     </View>
 }
