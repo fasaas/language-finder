@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, Text, TextInput, View } from 'react-native';
 import { SectionPicker } from '../components/newSection/SectionPicker';
 import { useNewNoteReducer } from '../components/newSection/useNewNoteReducer';
+import { PhraseSection } from '../sections/phrase';
 
 export const NewNoteScreen = () => {
   const { state, dispatch } = useNewNoteReducer();
@@ -18,11 +19,26 @@ export const NewNoteScreen = () => {
       </View>
       {
         state.sections.length > 0
-          ? <Text>{JSON.stringify(state.sections)}</Text>
+          ? state.sections.map((section) => {
+            const { type, id, content } = section;
+            if (type === "Sentence") {
+              return <PhraseSection
+                key={`sections-${id}`}
+                {...content}
+                setFrom={(from) => dispatch({ action: "sentence-set-from", id, value: from })}
+                setTo={(to) => dispatch({ action: "sentence-set-to", id, value: to })}
+              />
+            }
+
+          })
           : null
       }
       <SectionPicker onSubmit={(type) => dispatch({ action: "new-section", type })} />
       <View key='submit-note'>
+        <Button
+          title="Save"
+          onPress={() => console.log(JSON.stringify(state, null, 4))}
+        />
       </View>
 
     </ScrollView>

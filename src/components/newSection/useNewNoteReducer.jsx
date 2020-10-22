@@ -5,7 +5,7 @@ let sectionCount = 0;
 const createSection = (type) => {
   sectionCount++;
   return {
-    "Sentence": { type: "Sentence", id: sectionCount, content: {} },
+    "Sentence": { type: "Sentence", id: sectionCount, content: { from: '', to: '' } },
     "Adjective": { type: "Adjective", id: sectionCount, content: {} },
     "Verb": { type: "Verb", id: sectionCount, content: {} }
   }[type];
@@ -23,6 +23,18 @@ const newNoteReducer = (state, dispatch) => {
       const { sections } = state;
       sections.push(createSection(type))
       return { ...state, sections }
+    }
+    case "sentence-set-from": {
+      const { id, value } = dispatch;
+      const { sections } = state;
+      sections.find((section) => section.id === id).content.from = value
+      return { ...state, sections };
+    }
+    case "sentence-set-to": {
+      const { id, value } = dispatch;
+      const { sections } = state;
+      sections.find((section) => section.id === id).content.to = value
+      return { ...state, sections };
     }
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Picker } from '@react-native-community/picker';
-import { Button, ScrollView, Text, TextInput, View } from 'react-native';
+import { Button, View } from 'react-native';
 
 const availableSections = ['Sentence', 'Adjective', 'Verb'];
 
@@ -16,7 +16,7 @@ export const SectionPicker = ({ onSubmit }) => {
         }
       </Picker>
       <Button
-        title='Add note'
+        title='Add section'
         onPress={() => onSubmit(selectedSection)}
       />
     </View>)
