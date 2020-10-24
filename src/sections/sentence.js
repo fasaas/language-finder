@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextInput, View } from 'react-native';
 import { Collapsible } from '../components/collapsible';
+import { useNewNoteContext } from '../contexts/NewNoteContext';
 
-export const PhraseSection = ({ id, deleteMe }) => {
-  const [from, setFrom] = useState();
-  const [to, setTo] = useState();
-
+export const SentenceSection = ({ id, state }) => {
+  const { from, to } = state;
+  const { dispatch } = useNewNoteContext();
   return (
     <Collapsible style={{ marginTop: 10, marginBottom: 10 }}
     >
@@ -14,7 +14,7 @@ export const PhraseSection = ({ id, deleteMe }) => {
           style={{ borderColor: 'gray', borderWidth: 1 }}
           placeholder='Предложение / Cлово'
           value={from}
-          onChangeText={setFrom}
+          onChangeText={(from) => dispatch({ action: 'set-sentence-from', id, from })}
         />
       </View>
       <View key='to-sentence'>
@@ -22,7 +22,7 @@ export const PhraseSection = ({ id, deleteMe }) => {
           style={{ borderColor: 'gray', borderWidth: 1 }}
           placeholder='Traducción'
           value={to}
-          onChangeText={setTo}
+          onChangeText={(to) => dispatch({ action: 'set-sentence-to', id, to })}
         />
       </View>
     </Collapsible>

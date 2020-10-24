@@ -1,36 +1,17 @@
 import { Picker } from '@react-native-community/picker';
 import React, { useState } from 'react';
-import { Alert, Button, ScrollView, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, TextInput, View } from 'react-native';
 import { useNewNoteContext } from '../contexts/NewNoteContext';
-import { useSettingsContext } from '../contexts/SettingsContext';
 import { AdjectiveSection } from '../sections/adjective';
-import { PhraseSection } from '../sections/phrase';
+import { SentenceSection } from '../sections/sentence';
 import { VerbSection } from '../sections/verb';
 
 const availableSections = ['Sentence', 'Adjective', 'Verb'];
 
-let componentsCount = 0;
 export const NewNoteScreen = () => {
-  const { settingsState } = useSettingsContext();
-  useNewNoteContext();
-
-  const [title, setTitle] = useState();
+  const { state, dispatch } = useNewNoteContext();
+  const { title, sections } = state;
   const [selectedSection, setSelectedSection] = useState(availableSections[0]);
-
-  const remove = (id) => {
-    const filteredSections = sections.filter((section) => section.id !== id);
-    setSections(filteredSections);
-  }
-
-  const [sections, setSections] = useState([{ id: 0, component: <PhraseSection id={componentsCount} deleteMe={remove} /> }]);
-
-  const push = (Component) => {
-    componentsCount++;
-    setSections(sections.concat({ id: componentsCount, component: <Component id={componentsCount} deleteMe={remove} /> }))
-  };
-
-
-
   return (
     <ScrollView>
       <View key='note-title'>
@@ -38,12 +19,27 @@ export const NewNoteScreen = () => {
           style={{ borderColor: 'gray', borderWidth: 1 }}
           placeholder='Title'
           value={title}
-          onChangeText={setTitle}
+          onChangeText={(title) => dispatch({ action: 'set-title', title })}
         />
       </View>
       {
         sections.length > 0
-          ? sections.map((element, index) => <View key={`${title}-sections-${index}`}>{element.component}</View>)
+          ? sections.map((section, index) => {
+            const { type } = section
+            const key = `sections-${type}-${index}`
+
+            if (type === 'Adjective') {
+              return <View key={key}><AdjectiveSection {...section} /></View>
+            }
+
+            if (type === 'Sentence') {
+              return <View key={key}><SentenceSection {...section} /></View>
+            }
+
+            if (type === 'Verb') {
+              return <View key={key}><VerbSection {...section} /></View>
+            }
+          })
           : null
       }
       <View key='add-section'>
@@ -58,11 +54,7 @@ export const NewNoteScreen = () => {
       <View key='submit-note'>
         <Button
           title='Add note'
-          onPress={() => {
-            if (selectedSection === 'Sentence') push(PhraseSection)
-            if (selectedSection === 'Adjective') push(AdjectiveSection)
-            if (selectedSection === 'Verb') push(VerbSection)
-          }}
+          onPress={() => dispatch({ action: 'new-section', type: selectedSection })}
         />
       </View>
 

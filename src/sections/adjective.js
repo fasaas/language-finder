@@ -1,18 +1,13 @@
-import React, { useReducer } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import React from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Collapsible } from '../components/collapsible';
+import { useNewNoteContext } from '../contexts/NewNoteContext';
 import { useSettingsContext } from '../contexts/SettingsContext';
 
-const adjectiveReducer = (state, { type, value }) => {
-  state[type] = value;
-  return state;
-}
-
-export const AdjectiveSection = () => {
+export const AdjectiveSection = ({ id, state }) => {
   const { settingsState } = useSettingsContext();
+  const { dispatch } = useNewNoteContext();
   const { genders } = settingsState;
-
-  const [state, dispatch] = useReducer(adjectiveReducer, {});
 
   return (
     <Collapsible style={{ marginTop: 10, marginBottom: 10 }}>
@@ -24,7 +19,7 @@ export const AdjectiveSection = () => {
               <TextInput
                 style={styles.inputContainerTextInput}
                 value={state[gender]}
-                onChangeText={(text) => dispatch({ type: gender, value: text })}
+                onChangeText={(value) => dispatch({ action: 'set-adjective-gender', id, gender, value })}
               />
             </View>
           )

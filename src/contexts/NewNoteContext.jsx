@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { useNewNoteReducer } from '../reducers/newNoteReducer';
+import { useNewNoteReducer } from '../reducers/NoteReducer';
 
 const Context = createContext();
 
