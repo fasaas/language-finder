@@ -6,6 +6,8 @@ import { SettingsScreen } from './screens/SettingsScreen';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { NotesScreen } from './screens/NotesScreen';
 import { NewNoteScreen } from './screens/NewNoteScreen';
+import { NewNoteProvider } from './contexts/NewNoteContext';
+import { NewNoteScreenWrapper } from './screens/NewNoteScreenWrapper';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -60,7 +62,7 @@ const NewNoteNavigator = () => {
     <NewNoteStack.Navigator>
       <NewNoteStack.Screen
         name="NewNote"
-        component={NewNoteScreen}
+        component={NewNoteScreenWrapper}
       />
     </NewNoteStack.Navigator>
   );

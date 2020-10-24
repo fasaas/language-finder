@@ -1,6 +1,7 @@
 import { Picker } from '@react-native-community/picker';
 import React, { useState } from 'react';
 import { Alert, Button, ScrollView, Text, TextInput, View } from 'react-native';
+import { useNewNoteContext } from '../contexts/NewNoteContext';
 import { useSettingsContext } from '../contexts/SettingsContext';
 import { AdjectiveSection } from '../sections/adjective';
 import { PhraseSection } from '../sections/phrase';
@@ -11,6 +12,7 @@ const availableSections = ['Sentence', 'Adjective', 'Verb'];
 let componentsCount = 0;
 export const NewNoteScreen = () => {
   const { settingsState } = useSettingsContext();
+  useNewNoteContext();
 
   const [title, setTitle] = useState();
   const [selectedSection, setSelectedSection] = useState(availableSections[0]);
