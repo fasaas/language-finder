@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { useSettingsContext } from "../contexts/SettingsContext";
 
 let sectionsCount = 0;
 
@@ -8,8 +9,23 @@ const createNewSection = (type) => {
   return {
     'Adjective': { type, id: sectionsCount, state: {} },
     'Sentence': { type, id: sectionsCount, state: { from: '', to: '' } },
-    'Verb': { type, id: sectionsCount, state: {} }
+    'Verb': getStartingVerbSection()
   }[type]
+}
+
+const getStartingVerbSection = () => {
+  const { settingsState } = useSettingsContext();
+  const { tenses, subjects } = settingsState;
+
+  const startingTenses = {};
+  tenses.forEach((tense) => {
+    const startingSubjects = {}
+    subjects.forEach((subject) => startingSubjects[subject] = '');
+
+    startingTenses[tense] = startingSubjects;
+  })
+
+  return { type: 'Verb', id: sectionsCount, state: { selectedTense: tenses[0], tenses: startingTenses } }
 }
 
 const reducer = (state, event) => {
@@ -45,6 +61,20 @@ const reducer = (state, event) => {
       const { id, gender, value } = event;
       const { sections } = state;
       sections.find((section) => section.id === id).state[gender] = value;
+
+      return { ...state, sections }
+    }
+    case 'set-tense': {
+      const { id, tense } = event;
+      const { sections } = state;
+      sections.find((section) => section.id === id).state.selectedTense = tense;
+
+      return { ...state, sections }
+    }
+    case 'set-subject-conjugation': {
+      const { id, tense, subject, conjugation } = event;
+      const { sections } = state;
+      sections.find((section) => section.id === id).state.tenses[tense][subject] = conjugation;
 
       return { ...state, sections }
     }

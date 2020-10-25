@@ -50,11 +50,15 @@ export const NewNoteScreen = () => {
         >
           {availableSections.map((section) => <Picker.Item key={`available-section-${section}`} label={section} value={section} />)}
         </Picker>
+        <Button
+          title='Add section'
+          onPress={() => dispatch({ action: 'new-section', type: selectedSection })}
+        />
       </View>
       <View key='submit-note'>
         <Button
           title='Add note'
-          onPress={() => dispatch({ action: 'new-section', type: selectedSection })}
+          onPress={() => console.log("New note state", state)}
         />
       </View>
 
